@@ -103,7 +103,7 @@
         .split-layout { display: flex; gap: 64px; align-items: center; }
         .split-text { flex: 1; }
         .split-images { flex: 1; display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
-        .split-img-box { width: 100%; height: 256px; border-radius: 16px; overflow: hidden; box-shadow: 0 10px 20px rgba(0,0,0,0.05); }
+        .split-img-box { width: 100%; height: 256px; border-radius: 16px; overflow: hidden; box-shadow: 0 10px 20px rgba(0,0,0,0.05); position: relative;}
         .split-img-box:first-child { margin-top: 32px; }
         .split-img-box img { width: 100%; height: 100%; object-fit: cover; }
 
@@ -120,7 +120,7 @@
         .product-title { padding: 16px; font-family: var(--font-serif); font-size: 14px; color: var(--mint-primary); }
 
         /* ================= 纹样库 ================= */
-        #gallery { background: rgba(229, 241, 236, 0.5); border-y: 1px solid var(--mint-border); }
+        #gallery { background: rgba(229, 241, 236, 0.5); border-top: 1px solid var(--mint-border); border-bottom: 1px solid var(--mint-border); }
         .tab-buttons { display: flex; justify-content: center; gap: 16px; margin-bottom: 48px; flex-wrap: wrap; }
         .tab-btn { padding: 8px 24px; border-radius: 50px; border: 1px solid var(--mint-primary); background: #fff; color: var(--mint-primary); cursor: pointer; transition: all 0.3s; font-weight: 500;}
         .tab-btn.active { background: var(--mint-primary); color: #fff; box-shadow: 0 4px 12px rgba(45,90,78,0.2); }
