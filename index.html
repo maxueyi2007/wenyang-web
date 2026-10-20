@@ -1,0 +1,612 @@
+<!DOCTYPE html>
+<html lang="zh-CN" style="scroll-behavior: smooth;">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>纹生万象 · 哈萨克纹样数字文化平台</title>
+    
+    <!-- 引入字体（如果加载不出会自动用系统字体，不影响排版） -->
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;700;900&family=Noto+Sans+SC:wght@300;400;500&display=swap" rel="stylesheet">
+    
+    <style>
+        /* ================= 基础重置与变量 ================= */
+        :root {
+            --mint-bg: #F3F8F6;
+            --mint-primary: #2D5A4E;
+            --mint-light: #DCEEE7;
+            --mint-border: #C2DCD2;
+            --mint-gold: #D4AF37;
+            --font-serif: 'Noto Serif SC', serif;
+            --font-sans: 'Noto Sans SC', sans-serif;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            background: linear-gradient(135deg, #F3F8F6 0%, #E5F1EC 100%);
+            color: var(--mint-primary);
+            font-family: var(--font-sans);
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        /* ================= 导航栏 ================= */
+        .top-nav {
+            position: fixed; top: 0; left: 0; width: 100%; height: 72px;
+            background-color: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid var(--mint-light);
+            z-index: 99999;
+            display: flex; align-items: center; justify-content: center;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.03);
+        }
+        .nav-content {
+            width: 100%; max-width: 1200px; padding: 0 24px;
+            display: flex; justify-content: space-between; align-items: center;
+        }
+        .nav-logo { display: flex; align-items: center; gap: 12px; cursor: pointer; }
+        .nav-logo-title { font-family: var(--font-serif); font-size: 24px; font-weight: 700; color: var(--mint-primary); }
+        .nav-logo-sub { font-size: 12px; color: rgba(45, 90, 78, 0.6); border-left: 1px solid var(--mint-border); padding-left: 12px; line-height: 1.2; }
+        
+        .nav-menu { display: flex; gap: 8px; }
+        .nav-link {
+            padding: 8px 16px; border-radius: 50px; font-size: 14px; text-decoration: none;
+            color: var(--mint-primary); transition: all 0.3s ease; font-weight: 500;
+        }
+        .nav-link:hover, .nav-link.active {
+            background-color: var(--mint-bg); font-weight: 700; border: 1px solid var(--mint-border); transform: translateY(-2px);
+        }
+
+        /* ================= 通用布局与排版 ================= */
+        section { padding: 96px 24px; scroll-margin-top: 80px; }
+        .container { max-width: 1200px; margin: 0 auto; }
+        .text-center { text-align: center; }
+        .section-subtitle { font-size: 12px; font-weight: 700; color: var(--mint-gold); letter-spacing: 0.1em; margin-bottom: 8px; display: block; }
+        .section-title { font-family: var(--font-serif); font-size: 36px; font-weight: 700; margin-bottom: 16px; }
+        .section-desc { font-size: 16px; color: rgba(45, 90, 78, 0.6); margin-bottom: 48px; }
+
+        /* ================= 首屏 Hero ================= */
+        #home {
+            min-height: 100vh; display: flex; flex-direction: column;
+            justify-content: center; align-items: center; text-align: center; padding: 0 24px;
+        }
+        .hero-badge {
+            display: inline-flex; align-items: center; gap: 8px; background: rgba(255,255,255,0.6);
+            border: 1px solid var(--mint-border); padding: 8px 20px; border-radius: 50px; margin-bottom: 40px;
+        }
+        .hero-badge-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--mint-gold); }
+        .hero-title { font-family: var(--font-serif); font-size: 90px; font-weight: 900; letter-spacing: 0.2em; margin-bottom: 32px; }
+        .hero-subtitle { font-family: var(--font-serif); font-size: 28px; margin-bottom: 16px; }
+        .hero-text { font-size: 18px; color: rgba(45, 90, 78, 0.6); margin-bottom: 56px; letter-spacing: 0.1em; }
+        
+        .btn-group { display: flex; gap: 24px; justify-content: center; flex-wrap: wrap; }
+        .btn {
+            padding: 14px 32px; border-radius: 50px; font-weight: 500; text-decoration: none;
+            transition: all 0.3s; display: inline-block; cursor: pointer;
+        }
+        .btn-outline { border: 1px solid rgba(45, 90, 78, 0.4); color: var(--mint-primary); }
+        .btn-outline:hover { background: var(--mint-primary); color: #fff; transform: translateY(-4px); }
+        .btn-solid { background: var(--mint-primary); color: #fff; box-shadow: 0 10px 20px rgba(45, 90, 78, 0.2); }
+        .btn-solid:hover { box-shadow: 0 15px 25px rgba(45, 90, 78, 0.3); transform: translateY(-4px); }
+
+        /* ================= 图片占位与通用卡片 ================= */
+        .img-placeholder {
+            background-color: #E5F1EC; border: 2px dashed #9AB8AF;
+            display: flex; flex-direction: column; align-items: center; justify-content: center;
+            color: #6D9A8E; font-size: 14px; border-radius: 16px; width: 100%; height: 100%;
+        }
+        .img-placeholder span { font-size: 12px; opacity: 0.7; margin-top: 4px; }
+        
+        .hover-card { background: #fff; border-radius: 16px; border: 1px solid transparent; transition: all 0.4s; }
+        .hover-card:hover { transform: translateY(-8px); box-shadow: 0 20px 40px rgba(45, 90, 78, 0.12); border-color: var(--mint-border); }
+
+        /* ================= 文化溯源 & 实践成果 ================= */
+        .split-layout { display: flex; gap: 64px; align-items: center; }
+        .split-text { flex: 1; }
+        .split-images { flex: 1; display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+        .split-img-box { width: 100%; height: 256px; border-radius: 16px; overflow: hidden; box-shadow: 0 10px 20px rgba(0,0,0,0.05); }
+        .split-img-box:first-child { margin-top: 32px; }
+        .split-img-box img { width: 100%; height: 100%; object-fit: cover; }
+
+        /* ================= 主推文创 ================= */
+        .category-title-box { display: flex; align-items: center; gap: 12px; margin: 40px 0 8px 0; }
+        .category-title-box::before { content: ''; display: block; width: 6px; height: 24px; background: var(--mint-gold); border-radius: 4px; }
+        .category-title { font-family: var(--font-serif); font-size: 24px; font-weight: 700; }
+        .category-desc { color: rgba(45, 90, 78, 0.6); margin-bottom: 24px; padding-left: 18px; }
+        
+        .grid-4 { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 24px; }
+        .product-card { background: #fff; border-radius: 16px; overflow: hidden; text-align: center; border: 1px solid #eee; }
+        .product-img-box { height: 180px; padding: 16px; display: flex; align-items: center; justify-content: center; border-bottom: 1px solid #f9f9f9; position: relative;}
+        .product-img-box img { max-width: 100%; max-height: 100%; object-fit: contain; }
+        .product-title { padding: 16px; font-family: var(--font-serif); font-size: 14px; color: var(--mint-primary); }
+
+        /* ================= 纹样库 ================= */
+        #gallery { background: rgba(229, 241, 236, 0.5); border-y: 1px solid var(--mint-border); }
+        .tab-buttons { display: flex; justify-content: center; gap: 16px; margin-bottom: 48px; flex-wrap: wrap; }
+        .tab-btn { padding: 8px 24px; border-radius: 50px; border: 1px solid var(--mint-primary); background: #fff; color: var(--mint-primary); cursor: pointer; transition: all 0.3s; font-weight: 500;}
+        .tab-btn.active { background: var(--mint-primary); color: #fff; box-shadow: 0 4px 12px rgba(45,90,78,0.2); }
+        
+        .grid-6 { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 16px; }
+        .pattern-card { background: #fff; border-radius: 12px; padding: 12px; text-align: center; cursor: pointer; }
+        .pattern-img-box { aspect-ratio: 1/1; background: #fff; border-radius: 8px; display: flex; align-items: center; justify-content: center; overflow: hidden; margin-bottom: 12px; position: relative;}
+        .pattern-img-box img { width: 100%; height: 100%; object-fit: cover; }
+        .pattern-title { font-family: var(--font-serif); font-size: 14px; }
+
+        /* ================= DIY 工坊 ================= */
+        .diy-wrapper { background: var(--mint-bg); border-radius: 24px; overflow: hidden; display: flex; box-shadow: 0 20px 40px rgba(0,0,0,0.05); border: 1px solid var(--mint-border); }
+        .diy-sidebar { width: 320px; background: #fff; padding: 24px; border-right: 1px solid var(--mint-border); display: flex; flex-direction: column; gap: 24px; }
+        .diy-step-title { font-size: 14px; font-weight: 700; margin-bottom: 12px; }
+        
+        .diy-grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; }
+        .base-btn { padding: 8px 4px; border: 1px solid var(--mint-border); border-radius: 8px; background: #fff; cursor: pointer; font-size: 12px; text-align: center; transition: all 0.3s; }
+        .diy-grid-2 { display: grid; grid-template-columns: repeat(2, 1fr); gap: 8px; }
+        .diy-pat-btn { padding: 8px; border: 1px solid var(--mint-border); border-radius: 8px; background: #fff; cursor: pointer; font-size: 12px; transition: all 0.3s; text-align: left; }
+        .btn-active { background: var(--mint-primary) !important; color: #fff !important; border-color: var(--mint-primary) !important; }
+
+        .color-group { display: flex; gap: 12px; }
+        .color-btn { width: 32px; height: 32px; border-radius: 50%; border: 2px solid transparent; cursor: pointer; transition: all 0.2s; }
+        .color-active { border-color: var(--mint-primary); transform: scale(1.15); box-shadow: 0 0 0 2px #fff inset; }
+
+        .diy-main { flex: 1; display: flex; align-items: center; justify-content: center; position: relative; min-height: 500px; background: url('https://www.transparenttextures.com/patterns/cubes.png'); }
+        .canvas-container { width: 400px; height: 400px; position: relative; display: flex; align-items: center; justify-content: center; }
+        .base-img { position: absolute; width: 100%; height: 100%; object-fit: contain; filter: drop-shadow(0 15px 25px rgba(0,0,0,0.1)); }
+        .pattern-overlay { position: absolute; width: 100%; height: 100%; object-fit: contain; mix-blend-mode: multiply; padding: 40px; opacity: 0; transition: all 0.4s; pointer-events: none; }
+
+        /* ================= 纹样人格测试 ================= */
+        .quiz-wrapper { max-width: 800px; margin: 0 auto; background: #EBF4F0; border-radius: 24px; padding: 48px; border: 1px solid var(--mint-border); position: relative; }
+        .quiz-progress-text { font-size: 14px; margin-bottom: 8px; opacity: 0.7; }
+        .quiz-progress-bar { width: 100%; height: 6px; background: var(--mint-border); border-radius: 4px; margin-bottom: 32px; overflow: hidden; }
+        .quiz-progress-inner { height: 100%; background: var(--mint-primary); transition: width 0.5s; }
+        .quiz-question { font-family: var(--font-serif); font-size: 24px; margin-bottom: 32px; }
+        .quiz-option { width: 100%; text-align: left; padding: 16px 24px; border: 1px solid var(--mint-border); border-radius: 12px; background: transparent; margin-bottom: 16px; cursor: pointer; transition: all 0.3s; font-size: 18px; color: var(--mint-primary); }
+        .quiz-option:hover { background: #fff; transform: translateY(-2px); box-shadow: 0 4px 12px rgba(0,0,0,0.05); }
+        
+        .result-box { text-align: center; display: none; }
+        .result-theme { color: var(--mint-gold); font-weight: 700; font-size: 14px; letter-spacing: 0.1em; margin-bottom: 8px; }
+        .result-name { font-family: var(--font-serif); font-size: 48px; margin-bottom: 32px; }
+        .result-img-box { width: 192px; height: 192px; background: #fff; border-radius: 24px; margin: 0 auto 32px; padding: 16px; border: 1px solid var(--mint-border); position: relative;}
+        .result-desc { font-size: 18px; margin-bottom: 40px; font-family: var(--font-serif); }
+
+        /* ================= 数据看板 ================= */
+        .stats-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin-top: 32px; }
+        .stat-card { background: var(--mint-bg); padding: 16px; border-radius: 12px; text-align: center; border: 1px solid var(--mint-border); }
+        .stat-num { font-size: 24px; font-weight: 700; }
+        .stat-label { font-size: 12px; opacity: 0.6; margin-top: 4px; }
+
+        /* ================= Footer ================= */
+        .site-footer { background: var(--mint-primary); color: rgba(255,255,255,0.8); padding: 48px 0; text-align: center; border-top: 1px solid var(--mint-border); }
+        .site-footer h3 { font-family: var(--font-serif); font-size: 24px; color: #fff; margin-bottom: 16px; letter-spacing: 0.1em; }
+        .site-footer p { font-size: 12px; opacity: 0.5; }
+
+        /* ================= 响应式调整 ================= */
+        @media (max-width: 768px) {
+            .nav-menu { display: none; }
+            .hero-title { font-size: 50px; }
+            .split-layout { flex-direction: column; }
+            .diy-wrapper { flex-direction: column; }
+            .diy-sidebar { width: 100%; border-right: none; border-bottom: 1px solid var(--mint-border); }
+            .canvas-container { width: 280px; height: 280px; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- 1. 导航栏 -->
+    <nav class="top-nav">
+        <div class="nav-content">
+            <div class="nav-logo" onclick="window.scrollTo(0,0)">
+                <span class="nav-logo-title">纹生万象</span>
+                <span class="nav-logo-sub">哈萨克纹样<br>数字文化平台</span>
+            </div>
+            <div class="nav-menu">
+                <a href="#home" class="nav-link">首页</a>
+                <a href="#origin" class="nav-link">文化溯源</a>
+                <a href="#products" class="nav-link">主推文创</a>
+                <a href="#gallery" class="nav-link">纹样库</a>
+                <a href="#diy" class="nav-link">文创DIY</a>
+                <a href="#personality" class="nav-link">纹样人格</a>
+                <a href="#practice" class="nav-link">实践成果</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- 2. 首页 Hero -->
+    <header id="home">
+        <div class="hero-badge">
+            <span class="hero-badge-dot"></span>
+            <span style="font-size: 14px; letter-spacing: 0.1em; opacity: 0.8;">数字文化数据库 × 民族文创DIY</span>
+        </div>
+        <h1 class="hero-title">纹生万象</h1>
+        <h2 class="hero-subtitle">哈萨克纹样数字文化平台</h2>
+        <p class="hero-text">让千年纹样，在数字时代重新生长</p>
+        <div class="btn-group">
+            <a href="#gallery" class="btn btn-outline">开始探索</a>
+            <a href="#diy" class="btn btn-solid">进入DIY工坊</a>
+        </div>
+    </header>
+
+    <!-- 3. 文化溯源 -->
+    <section id="origin" style="background: rgba(255,255,255,0.4); border-top: 1px solid var(--mint-border); border-bottom: 1px solid var(--mint-border);">
+        <div class="container split-layout">
+            <div class="split-text">
+                <span class="section-subtitle">01 / CULTURAL ORIGIN</span>
+                <h2 class="section-title">游牧长歌 · 文化溯源</h2>
+                <p style="font-size: 18px; line-height: 1.8; margin-bottom: 24px; opacity: 0.8;">哈萨克族被称为“马背上的民族”。千百年来，他们将自然崇拜与生活祈愿，一针一线绣进毡毯、刻入马鞍。</p>
+                <p style="font-size: 18px; line-height: 1.8; opacity: 0.8;">“纹生万象”团队深入乌鲁木齐东南沟村，在非遗传承人的指导下，将这些散落的游牧密码进行数字化重构。</p>
+            </div>
+            <div class="split-images">
+                <div class="split-img-box">
+                    <img src="images/非遗工坊图片.jpg" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                    <div class="img-placeholder" style="display:none;">非遗工坊图片<span>请放入 images/非遗工坊图片.jpg</span></div>
+                </div>
+                <div class="split-img-box">
+                    <img src="images/传承人图片.jpg" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                    <div class="img-placeholder" style="display:none;">传承人图片<span>请放入 images/传承人图片.jpg</span></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 4. 主推文创 -->
+    <section id="products">
+        <div class="container">
+            <div class="text-center">
+                <span class="section-subtitle">02 / PRODUCTS</span>
+                <h2 class="section-title">主推文创矩阵</h2>
+                <p class="section-desc">将经典纹样提取重组，按三大系列让非遗回归生活</p>
+            </div>
+            <div id="product-container"></div>
+        </div>
+    </section>
+
+    <!-- 5. 纹样库 -->
+    <section id="gallery">
+        <div class="container">
+            <div class="text-center">
+                <span class="section-subtitle">03 / PATTERNS</span>
+                <h2 class="section-title" style="font-size: 48px;">纹样数据库</h2>
+            </div>
+            <div class="tab-buttons" id="tab-buttons">
+                <button onclick="switchTab('fulu', this)" class="tab-btn active">福禄吉祥</button>
+                <button onclick="switchTab('pingan', this)" class="tab-btn">平安归途</button>
+                <button onclick="switchTab('liangyuan', this)" class="tab-btn">良缘顺遂</button>
+                <button onclick="switchTab('zhuzhi', this)" class="tab-btn">逐志成长</button>
+            </div>
+            <div class="grid-6" id="gallery-container"></div>
+        </div>
+    </section>
+
+    <!-- 6. 文创DIY -->
+    <section id="diy" style="background: #fff;">
+        <div class="container">
+            <div class="text-center">
+                <span class="section-subtitle">04 / DIY STUDIO</span>
+                <h2 class="section-title">在线文创 DIY 工坊</h2>
+                <p class="section-desc">选择真实的空白产品，叠加纹样、调整颜色，打造专属非遗单品</p>
+            </div>
+            
+            <div class="diy-wrapper">
+                <div class="diy-sidebar">
+                    <div>
+                        <div class="diy-step-title">1. 选择空白产品</div>
+                        <div class="diy-grid-3" id="base-buttons"></div>
+                    </div>
+                    <div>
+                        <div class="diy-step-title">2. 添加纹样图案</div>
+                        <div class="diy-grid-2" id="diy-pattern-buttons"></div>
+                    </div>
+                    <div>
+                        <div class="diy-step-title">3. 调整图案颜色</div>
+                        <div class="color-group" id="color-buttons">
+                            <button data-hue="0deg" class="color-btn color-active" style="background-color: #D4AF37;"></button>
+                            <button data-hue="180deg" class="color-btn" style="background-color: #4A90E2;"></button>
+                            <button data-hue="90deg" class="color-btn" style="background-color: #4CAF50;"></button>
+                            <button data-hue="300deg" class="color-btn" style="background-color: #E91E63;"></button>
+                        </div>
+                    </div>
+                    <div>
+                        <div class="diy-step-title">4. 缩放图案</div>
+                        <div style="display: flex; gap: 8px;">
+                            <button onclick="scalePattern(0.1)" class="btn btn-outline" style="flex:1; padding: 8px; font-size: 14px; border-radius: 8px;">放大 +</button>
+                            <button onclick="scalePattern(-0.1)" class="btn btn-outline" style="flex:1; padding: 8px; font-size: 14px; border-radius: 8px;">缩小 -</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="diy-main">
+                    <div class="canvas-container">
+                        <img id="diy-base-img" src="" class="base-img" alt="空白底图">
+                        <div id="diy-base-placeholder" class="img-placeholder" style="display:none; position: absolute; inset: 0;">产品底图丢失<span>请检查 images 文件夹</span></div>
+                        <img id="diy-overlay" src="" class="pattern-overlay">
+                    </div>
+                    <div style="position: absolute; bottom: 24px; right: 24px;">
+                        <button onclick="alert('设计已保存！')" class="btn btn-solid">保存设计</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 7. 纹样人格测试 -->
+    <section id="personality" style="background: rgba(229, 241, 236, 0.5); border-top: 1px solid var(--mint-border); border-bottom: 1px solid var(--mint-border);">
+        <div class="container">
+            <div class="text-center" style="margin-bottom: 40px;">
+                <span class="section-subtitle">05 / PERSONALITY</span>
+                <h2 class="section-title">寻找你的专属纹样</h2>
+                <p class="section-desc" style="max-width: 600px; margin: 0 auto 40px;">三道意象题，映射到「福禄吉祥 / 平安归途 / 良缘顺遂 / 逐志成长」四类长卷之一，并为你抽取该卷中的一枚纹样。</p>
+            </div>
+            
+            <div class="quiz-wrapper">
+                <div id="quiz-content">
+                    <!-- 题目区 -->
+                </div>
+                
+                <div id="result-content" class="result-box">
+                    <div class="result-theme" id="result-theme">长卷名称</div>
+                    <div class="result-name" id="result-name">纹样名称</div>
+                    <div class="result-img-box">
+                        <img id="result-img" src="" style="width:100%; height:100%; object-fit:contain;">
+                        <div id="result-placeholder" class="img-placeholder" style="display:none; position:absolute; inset:0;">纹样图片丢失</div>
+                    </div>
+                    <div class="result-desc" id="result-desc">纹样寓意...</div>
+                    <div style="display: flex; justify-content: center; gap: 16px;">
+                        <button onclick="showStory()" class="btn btn-solid" style="background: #9AB8AF;">读纹样故事</button>
+                        <button onclick="resetQuiz()" class="btn btn-outline">再测一次</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 8. 实践成果 -->
+    <section id="practice" style="background: #fff;">
+        <div class="container split-layout">
+            <div class="split-text">
+                <span class="section-subtitle">06 / PRACTICE</span>
+                <h2 class="section-title">推普与非遗数字化闭环</h2>
+                <p style="font-size: 18px; line-height: 1.8; margin-bottom: 32px; opacity: 0.8;">依托“千团万人推普强国行”实践成果，线下采集的纹样与四书单字，转化为永久留存的数字资产，实现推普成果的长效传播。</p>
+                
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-num">30<span style="font-size:14px;">户</span></div>
+                        <div class="stat-label">入户访谈</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-num">364<span style="font-size:14px;">份</span></div>
+                        <div class="stat-label">有效问卷</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-num">23<span style="font-size:14px;">+</span></div>
+                        <div class="stat-label">纹样数据化</div>
+                    </div>
+                </div>
+            </div>
+            <div class="split-images">
+                <div class="split-img-box">
+                    <img src="images/推普课堂图片.jpg" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                    <div class="img-placeholder" style="display:none;">推普课堂图片<span>请放入 images/推普课堂图片.jpg</span></div>
+                </div>
+                <div class="split-img-box">
+                    <img src="images/推普实践图片.jpg" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                    <div class="img-placeholder" style="display:none;">推普实践图片<span>请放入 images/推普实践图片.jpg</span></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="site-footer">
+        <h3>纹生万象</h3>
+        <p>© 2026 纹生万象 Kazakh Patterns Platform. All Rights Reserved.</p>
+    </footer>
+
+    <script>
+        // ================= 数据源 =================
+        const productCategories = [
+            { title: "「四季流转」视觉设计", desc: "将春夏秋冬的游牧风貌与纹样结合，形成系统化的视觉设计。", items: ["春季文创设计", "夏季文创设计", "秋季文创设计", "冬季文创设计"] },
+            { title: "「非遗转场」特色马鞭", desc: "以传统马鞭为载体，融入四季转场文化与现代审美。", items: ["春季特色马鞭", "春季转场特色马鞭", "夏季特色马鞭", "夏季转场特色马鞭", "秋季特色马鞭", "秋季转场特色马鞭", "冬季特色马鞭", "冬季转场特色马鞭"] },
+            { title: "「哈萨克风情」生活周边", desc: "兼具实用与民族美学的日常好物，让非遗真正走进生活。", items: ["哈萨克特色花纹单肩包", "马形文创笔筒", "哈萨克四季转场主题金属徽章", "哈萨克四季转场主题台历", "哈萨克族四季转场明信片"] }
+        ];
+
+        const patternsData = {
+            fulu: { name: '福禄吉祥', items: [{ display: '断羊角纹', file: '断羊角纹渐变图样' }, { display: '回纹', file: '回纹渐变图样' }, { display: '鹿角纹', file: '鹿角纹渐变图样' }, { display: '盘羊角纹', file: '盘羊角纹渐变图样' }, { display: '石榴花纹', file: '石榴花纹渐变图样' }]},
+            pingan: { name: '平安归途', items: [{ display: '河流纹', file: '河流纹图样' }, { display: '马蹄纹', file: '马蹄纹渐变图样' }, { display: '盘长纹', file: '盘长纹渐变图样' }, { display: '锁子纹', file: '锁子纹图样' }, { display: '驼掌纹', file: '驼掌纹渐变图样' }, { display: '鹰纹', file: '鹰纹渐变图样' }]},
+            liangyuan: { name: '良缘顺遂', items: [{ display: '卷草纹', file: '卷草纹图样' }, { display: '玫瑰花纹', file: '玫瑰花纹图样' }, { display: '双鸟纹', file: '双鸟纹图样' }, { display: '天鹅纹', file: '天鹅纹图样' }, { display: '心形纹', file: '心形纹图样' }, { display: '郁金香纹', file: '郁金香纹图样' }]},
+            zhuzhi: { name: '逐志成长', items: [{ display: '波斯菊花纹', file: '波斯菊花纹图样' }, { display: '牛角纹', file: '牛角纹图样' }, { display: '葡萄芽纹', file: '葡萄芽纹图样' }, { display: '窃曲纹', file: '窃曲纹图样' }, { display: '太阳花纹', file: '太阳花纹图样' }, { display: '五角纹', file: '五角纹图样' }]}
+        };
+
+        function getImgTag(name, classes) {
+            return `
+                <img src="images/${name}.jpg" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';" class="${classes}" alt="${name}" loading="lazy">
+                <div class="img-placeholder" style="display:none;">${name}<span>缺少图片</span></div>
+            `;
+        }
+
+        // ================= 渲染主推文创 =================
+        function renderProducts() {
+            const container = document.getElementById('product-container');
+            container.innerHTML = productCategories.map((category) => {
+                const cardsHTML = category.items.map(item => `
+                    <div class="hover-card product-card">
+                        <div class="product-img-box">
+                            ${getImgTag(item, '')}
+                        </div>
+                        <div class="product-title">${item}</div>
+                    </div>
+                `).join('');
+
+                return `
+                    <div>
+                        <div class="category-title-box"><div class="category-title">${category.title}</div></div>
+                        <div class="category-desc">${category.desc}</div>
+                        <div class="grid-4">${cardsHTML}</div>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        // ================= 渲染纹样库 =================
+        function renderGallery(category) {
+            const data = patternsData[category];
+            document.getElementById('gallery-container').innerHTML = data.items.map(item => `
+                <div class="hover-card pattern-card">
+                    <div class="pattern-img-box">
+                        ${getImgTag(item.file, '')}
+                    </div>
+                    <div class="pattern-title">${item.display}</div>
+                </div>
+            `).join('');
+        }
+
+        function switchTab(category, btn) {
+            document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+            renderGallery(category);
+        }
+
+        // ================= DIY 逻辑 =================
+        const baseProducts = ["T恤", "抱枕", "帆布包", "马克杯", "明信片", "手机壳", "手账本", "丝巾", "贴纸"];
+        const demoPatterns = [
+            { display: '断羊角纹', file: '断羊角纹渐变图样' }, { display: '回纹', file: '回纹渐变图样' }, { display: '河流纹', file: '河流纹图样' }, { display: '马蹄纹', file: '马蹄纹渐变图样' },
+            { display: '卷草纹', file: '卷草纹图样' }, { display: '天鹅纹', file: '天鹅纹图样' }, { display: '太阳花纹', file: '太阳花纹图样' }, { display: '五角纹', file: '五角纹图样' }
+        ];
+
+        const overlay = document.getElementById('diy-overlay');
+        const baseImg = document.getElementById('diy-base-img');
+        const basePlaceholder = document.getElementById('diy-base-placeholder');
+        let currentScale = 1.0;
+
+        function initDiy() {
+            document.getElementById('base-buttons').innerHTML = baseProducts.map((name, i) => `
+                <button data-name="${name}" class="base-btn ${i===2 ? 'btn-active' : ''}">${name}</button>
+            `).join('');
+
+            document.getElementById('diy-pattern-buttons').innerHTML = demoPatterns.map((item, i) => `
+                <button data-file="${item.file}" class="diy-pat-btn ${i===0 ? 'btn-active' : ''}">${item.display}</button>
+            `).join('');
+
+            document.querySelectorAll('.base-btn').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    document.querySelectorAll('.base-btn').forEach(b => b.classList.remove('btn-active'));
+                    this.classList.add('btn-active');
+                    const name = this.getAttribute('data-name');
+                    baseImg.style.display = 'block'; basePlaceholder.style.display = 'none';
+                    baseImg.src = `images/${name}.jpg`;
+                    baseImg.onerror = function() { this.style.display = 'none'; basePlaceholder.style.display = 'flex'; basePlaceholder.innerHTML = `${name}<span>缺少底图</span>`; };
+                });
+            });
+
+            document.querySelectorAll('.diy-pat-btn').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    document.querySelectorAll('.diy-pat-btn').forEach(b => b.classList.remove('btn-active'));
+                    this.classList.add('btn-active');
+                    const file = this.getAttribute('data-file');
+                    overlay.style.opacity = '0';
+                    setTimeout(() => {
+                        overlay.src = `images/${file}.jpg`;
+                        overlay.onerror = function() { this.onerror=null; this.src=`images/${file}.png`; };
+                        overlay.style.opacity = '0.85';
+                    }, 150);
+                });
+            });
+
+            document.querySelectorAll('.color-btn').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    document.querySelectorAll('.color-btn').forEach(b => b.classList.remove('color-active'));
+                    this.classList.add('color-active');
+                    overlay.style.filter = `hue-rotate(${this.getAttribute('data-hue')})`;
+                });
+            });
+
+            baseImg.src = 'images/帆布包.jpg';
+            baseImg.onerror = function() { this.style.display='none'; basePlaceholder.style.display='flex'; };
+            overlay.src = 'images/断羊角纹渐变图样.jpg';
+            overlay.onerror = function() { this.onerror=null; this.src='images/断羊角纹渐变图样.png'; };
+            overlay.style.opacity = '0.85';
+        }
+
+        function scalePattern(step) {
+            currentScale += step;
+            if(currentScale < 0.3) currentScale = 0.3;
+            if(currentScale > 1.5) currentScale = 1.5;
+            overlay.style.transform = `scale(${currentScale})`;
+        }
+
+        // ================= 纹样测试逻辑 =================
+        const patternPools = {
+            "fulu": [{ display: '断羊角纹', file: '断羊角纹渐变图样' }, { display: '回纹', file: '回纹渐变图样' }, { display: '鹿角纹', file: '鹿角纹渐变图样' }, { display: '盘羊角纹', file: '盘羊角纹渐变图样' }, { display: '石榴花纹', file: '石榴花纹渐变图样' }],
+            "pingan": [{ display: '河流纹', file: '河流纹图样' }, { display: '马蹄纹', file: '马蹄纹渐变图样' }, { display: '盘长纹', file: '盘长纹渐变图样' }, { display: '锁子纹', file: '锁子纹图样' }, { display: '驼掌纹', file: '驼掌纹渐变图样' }, { display: '鹰纹', file: '鹰纹渐变图样' }],
+            "liangyuan": [{ display: '卷草纹', file: '卷草纹图样' }, { display: '玫瑰花纹', file: '玫瑰花纹图样' }, { display: '双鸟纹', file: '双鸟纹图样' }, { display: '天鹅纹', file: '天鹅纹图样' }, { display: '心形纹', file: '心形纹图样' }, { display: '郁金香纹', file: '郁金香纹图样' }],
+            "zhuzhi": [{ display: '波斯菊花纹', file: '波斯菊花纹图样' }, { display: '牛角纹', file: '牛角纹图样' }, { display: '葡萄芽纹', file: '葡萄芽纹图样' }, { display: '窃曲纹', file: '窃曲纹图样' }, { display: '太阳花纹', file: '太阳花纹图样' }, { display: '五角纹', file: '五角纹图样' }]
+        };
+
+        const themeData = {
+            "fulu": { name: "福禄吉祥长卷", desc: "多子多福，和睦团圆，家业丰盈。" },
+            "pingan": { name: "平安归途长卷", desc: "前路坦荡，水草丰茂，岁岁平安。" },
+            "liangyuan": { name: "良缘顺遂长卷", desc: "情意绵长，温柔相伴，良缘天成。" },
+            "zhuzhi": { name: "逐志成长长卷", desc: "向阳而生，破茧成蝶，志向远大。" }
+        };
+
+        const quizData = [
+            { question: "此刻你更向往哪种风？", options: [{ text: "金色麦浪与丰收号角", type: "fulu", offset: 0 }, { text: "远方地平线与肩上的星光", type: "zhuzhi", offset: 1 }, { text: "湖面倒影与双人足迹", type: "liangyuan", offset: 2 }, { text: "破晓第一道光", type: "pingan", offset: 3 }] },
+            { question: "若纹样会说话，你希望它？", options: [{ text: "沉稳守护", type: "pingan", offset: 0 }, { text: "陪你远行", type: "zhuzhi", offset: 1 }, { text: "温柔低语", type: "liangyuan", offset: 2 }, { text: "催促你向上", type: "fulu", offset: 3 }] },
+            { question: "选一种材质承载记忆？", options: [{ text: "厚羊毛毡", type: "fulu", offset: 0 }, { text: "马鞍皮革", type: "pingan", offset: 1 }, { text: "婚嫁绣线", type: "liangyuan", offset: 2 }, { text: "骨质鞭柄", type: "zhuzhi", offset: 3 }] }
+        ];
+
+        let currentQuestion = 0, scores = { fulu: 0, pingan: 0, liangyuan: 0, zhuzhi: 0 }, totalOffset = 0;
+
+        function renderQuiz() {
+            const container = document.getElementById('quiz-content');
+            const resultContainer = document.getElementById('result-content');
+
+            if (currentQuestion < quizData.length) {
+                resultContainer.style.display = 'none';
+                container.style.display = 'block';
+
+                const q = quizData[currentQuestion];
+                let html = `
+                    <div class="quiz-progress-text">问题 ${currentQuestion + 1} / 3</div>
+                    <div class="quiz-progress-bar"><div class="quiz-progress-inner" style="width: ${((currentQuestion + 1) / 3) * 100}%"></div></div>
+                    <h3 class="quiz-question">${q.question}</h3>
+                `;
+                q.options.forEach(opt => {
+                    html += `<button onclick="selectOption('${opt.type}', ${opt.offset})" class="quiz-option">${opt.text}</button>`;
+                });
+                container.innerHTML = html;
+            } else {
+                container.style.display = 'none';
+                resultContainer.style.display = 'block';
+
+                let maxType = 'fulu', maxScore = -1;
+                for (const [type, score] of Object.entries(scores)) { if (score > maxScore) { maxScore = score; maxType = type; } }
+
+                const pool = patternPools[maxType];
+                const patternIndex = totalOffset % pool.length;
+                const finalPattern = pool[patternIndex];
+                const theme = themeData[maxType];
+
+                document.getElementById('result-name').innerText = finalPattern.display;
+                document.getElementById('result-theme').innerText = theme.name;
+                document.getElementById('result-desc').innerText = theme.desc;
+                
+                const imgEl = document.getElementById('result-img');
+                const placeholder = document.getElementById('result-placeholder');
+                imgEl.style.display = 'block'; placeholder.style.display = 'none';
+                imgEl.src = `images/${finalPattern.file}.jpg`;
+                imgEl.onerror = function() { this.style.display='none'; placeholder.style.display='flex'; };
+            }
+        }
+
+        function selectOption(type, offset) { scores[type]++; totalOffset += offset; currentQuestion++; renderQuiz(); }
+        function resetQuiz() { currentQuestion = 0; scores = { fulu: 0, pingan: 0, liangyuan: 0, zhuzhi: 0 }; totalOffset = 0; renderQuiz(); }
+        function showStory() { alert("在广袤的草原上，这枚纹样曾被绣在保暖的毡毯上。它不仅是对美的追求，更是长辈对家族繁衍、衣食无忧的深切祈愿。"); }
+
+        // ================= 初始化 =================
+        window.addEventListener('DOMContentLoaded', () => {
+            renderProducts();
+            renderGallery('fulu');
+            initDiy();
+            renderQuiz();
+        });
+    </script>
+</body>
+</html>
